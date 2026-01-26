@@ -2,6 +2,7 @@ package com.ecommerce.project.controller;
 
 import java.util.*;
 import com.ecommerce.project.model.Category;
+import com.ecommerce.project.payload.CategoryResponse;
 import com.ecommerce.project.service.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 public class CategoryController {
 
-    @Autowired
+
     private CategoryService categoryService;
 
     public CategoryController(CategoryService categoryService) {
@@ -21,10 +22,10 @@ public class CategoryController {
     }
 
     @GetMapping("/api/public/categories")
-      public ResponseEntity<List<Category>> getAllCategories(){
+      public ResponseEntity<CategoryResponse> getAllCategories(){
 
-         List<Category> categories = categoryService.getAllCategories();
-         return new ResponseEntity<>(categories,HttpStatus.OK);
+        CategoryResponse categoryResponse = categoryService.getAllCategories();
+         return new ResponseEntity<>(categoryResponse,HttpStatus.OK);
 
       }
 
