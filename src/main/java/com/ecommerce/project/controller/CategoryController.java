@@ -13,31 +13,31 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
+@RequestMapping("/api")
 public class CategoryController {
 
-
+    @Autowired
     private CategoryService categoryService;
 
-    public CategoryController(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
 
-    @GetMapping("/api/public/categories")
-      public ResponseEntity<CategoryResponse> getAllCategories(){
+    @GetMapping("/public/categories")
+      public ResponseEntity<CategoryResponse> getAllCategories(
+        @RequestParam(name = "pageNumber") Integer pageNumber,
 
-        CategoryResponse categoryResponse = categoryService.getAllCategories();
+        @RequestParam(name = "pageSize")    Integer pageSize){
+        CategoryResponse categoryResponse = categoryService.getAllCategories(pageNumber,pageSize);
          return new ResponseEntity<>(categoryResponse,HttpStatus.OK);
 
       }
 
-      @PostMapping("/api/public/categories")
+      @PostMapping("/public/categories")
       public ResponseEntity<CategoryDTO> createCategory(@Valid @RequestBody CategoryDTO categoryDTO){
 
             CategoryDTO savedCategoryDTO = categoryService.createCategory(categoryDTO);
             return new ResponseEntity<>(savedCategoryDTO,HttpStatus.CREATED);
 
       }
-      @DeleteMapping("/api/admin/categories/{categoryId}")
+      @DeleteMapping("/admin/categories/{categoryId}")
       public ResponseEntity<CategoryDTO> deleteCategory(@PathVariable Long categoryId){
 
             CategoryDTO deletedCategory = categoryService.deleteCategory(categoryId);
@@ -45,7 +45,7 @@ public class CategoryController {
             return new  ResponseEntity<>(deletedCategory, HttpStatus.OK);
 
       }
-      @PutMapping("/api/admin/categories/{categoryId}")
+      @PutMapping("/admin/categories/{categoryId}")
       public ResponseEntity<CategoryDTO> updateCategory(@Valid @RequestBody CategoryDTO categoryDTO,
                                                    @PathVariable("categoryId") Long categoryId){
 
