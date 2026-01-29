@@ -31,10 +31,10 @@ public class CategoryController {
       }
 
       @PostMapping("/api/public/categories")
-      public ResponseEntity<String> createCategory(@Valid @RequestBody CategoryDTO categoryDTO){
+      public ResponseEntity<CategoryDTO> createCategory(@Valid @RequestBody CategoryDTO categoryDTO){
 
-            categoryService.createCategory(categoryDTO);
-            return new ResponseEntity<>("Category added successfully",HttpStatus.CREATED);
+            CategoryDTO savedCategoryDTO = categoryService.createCategory(categoryDTO);
+            return new ResponseEntity<>(savedCategoryDTO,HttpStatus.CREATED);
 
       }
       @DeleteMapping("/api/admin/categories/{categoryId}")
