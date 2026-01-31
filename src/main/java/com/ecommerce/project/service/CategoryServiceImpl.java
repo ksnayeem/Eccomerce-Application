@@ -18,8 +18,10 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
+    @Autowired
     private final CategoryRepository categoryRepository;
 
+    @Autowired
     private final ModelMapper modelMapper;
 
     public CategoryServiceImpl(CategoryRepository categoryRepository, ModelMapper modelMapper) {
@@ -47,6 +49,11 @@ public class CategoryServiceImpl implements CategoryService {
         CategoryResponse categoryResponse = new CategoryResponse();
 
         categoryResponse.setContent(categoryDTOS);
+        categoryResponse.setPageNumber(categoryPage.getNumber());
+        categoryResponse.setPageSize(categoryPage.getSize());
+        categoryResponse.setTotalElements(categoryPage.getTotalElements());
+        categoryResponse.setTotalPages(categoryPage.getTotalPages());
+        categoryResponse.setLastPage(categoryPage.isLast());
         return categoryResponse;
     }
 
